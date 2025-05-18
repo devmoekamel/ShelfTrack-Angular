@@ -4,16 +4,17 @@ import { IBook } from '../../models/book';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BookCardComponent } from './book-card/book-card.component';
 
 @Component({
   selector: 'app-books',
-  imports: [RouterLink, CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, BookCardComponent],
   templateUrl: './books.component.html',
   styleUrl: './books.component.css',
 })
 export class BooksComponent implements OnInit {
   Books!: IBook[];
-  filteredBooks!:IBook[];
+  filteredBooks!: IBook[];
   searchQuery: string = '';
   constructor(public BookServices: BookService) {}
   ngOnInit(): void {
@@ -21,19 +22,19 @@ export class BooksComponent implements OnInit {
       next: (response) => {
         console.log(response);
         this.Books = response;
-        this.filteredBooks=response;
+        this.filteredBooks = response;
       },
       error: () => {},
     });
   }
 
-  addToCart(){
-
-  }
-
-  searchBook(){
+  searchBook() {
     console.log(this.searchQuery);
-    this.filteredBooks = this.searchQuery!=""?
-    this.Books.filter(b=>b.title.toLowerCase().includes(this.searchQuery.toLowerCase())):this.Books;
+    this.filteredBooks =
+      this.searchQuery != ''
+        ? this.Books.filter((b) =>
+            b.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+          )
+        : this.Books;
   }
 }
