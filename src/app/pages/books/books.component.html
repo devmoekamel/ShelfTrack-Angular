@@ -1,0 +1,95 @@
+<div class="container py-5">
+  <!-- Heading with #332D56 -->
+  <h2 class="mb-4 text-center display-4 fw-bold" [style.color]="'#332D56'">
+    Our Book Collections
+  </h2>
+
+  <!-- Search Input - Moved to Top Right -->
+  <div class="my-4 d-flex justify-content-end">
+    <div class="position-relative w-sm-auto">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search books..."
+        [(ngModel)]="searchQuery"
+        (input)="searchBook()"
+        [style.border-color]="'#71C0BB'"
+        style="padding-right: 2.5rem"
+      />
+      <i
+        class="fas fa-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
+      ></i>
+    </div>
+  </div>
+
+  <!-- Book Grid -->
+  <div class="row g-4">
+    @for (Book of filteredBooks; track Book.id) {
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100 shadow-none  transition-all">
+        <img
+          [src]="
+            'https://api.booxtore.net/products_images/w939xjhbIVEU2UhXwuU4dkB4JVQw1VuzZtE4adMT.png '
+          "
+          class="card-img-top p-3 bg-light"
+          [alt]="Book.title"
+          style="object-fit: contain; height: 250px"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-truncate" [title]="Book.title">
+            {{ Book.title }}
+          </h5>
+
+          <p class="card-text d-flex gap-2 my-1">
+            <strong class="text-gray fw-bold" [style.color]="'#4E6688'">
+              <i class="fa-solid fa-list"></i>
+            </strong>
+            <span class="fw-semibold">{{ Book.genre }}</span>
+          </p>
+          <p class="card-text my-1">
+            <strong
+              class="text-success fw-semibold fs-5"
+              [style.color]="'#4E6688'"
+              >Price:
+            </strong>
+            <span class="fs-5">{{
+              Book.price | currency : "USD" : "symbol" : "1.2-2"
+            }}</span>
+          </p>
+          <div class="mt-auto d-flex justify-content-end gap-2 pt-3">
+            <!-- See Details Button (Icon Only) -->
+            <a
+              class="btn btn-sm btn-primary rounded-circle d-inline-flex align-items-center justify-content-center"
+              style="width: 36px; height: 36px"
+              [routerLink]="['/products', Book.id]"
+              [style.background-color]="'#71C0BB'"
+              [style.border]="'none'"
+              title="View Details"
+            >
+              <i class="fas fa-eye"></i>
+            </a>
+            <!-- Add to Cart Button (Icon Only) -->
+            <button
+              class="btn btn-sm rounded-circle d-inline-flex align-items-center justify-content-center"
+              style="width: 36px; height: 36px"
+              (click)="addToCart()"
+              [style.background-color]="'#4E6688'"
+              [style.color]="'white'"
+              [style.border]="'none'"
+              title="Add to Cart"
+            >
+              <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    }@empty {
+
+    <div class="my-5 text-center text-danger">
+      <img src="book.png" alt="" width="100px" class="my-3" />
+      <h3>No Books found</h3>
+    </div>
+    }
+  </div>
+</div>
